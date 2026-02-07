@@ -1,1 +1,525 @@
-Not inside a trusted directory and --skip-git-repo-check was not specified.
+2026-02-07T18:02:07.111951Z ERROR codex_core::rollout::list: state db missing rollout path for thread 019c3487-a32c-7663-bc16-ecce97dceef5
+OpenAI Codex v0.98.0 (research preview)
+--------
+workdir: /Users/henrymascot/Code/openclaw-courses
+model: gpt-5.3-codex
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: high
+reasoning summaries: auto
+session id: 019c3944-a946-7813-88ed-e6e4fef7047b
+--------
+user
+Build a landing page for OpenClaw Courses. Read courses-page-copy.md for content. Create index.html with Tailwind CSS via CDN. Include: hero, 3 course cards (Fundamentals $497, Advanced $997, Accelerator $2497), team workshop $4997, bundle deal, testimonials, FAQ accordion, 40% early access offer. Dark theme, purple/blue gradients, mobile responsive. Add vercel.json for deployment.
+deprecated: `[features].web_search_request` is deprecated. Use `web_search` instead.
+  Set `web_search` to `"live"`, `"cached"`, or `"disabled"` at the top level (or under a profile) in config.toml.
+warning: Under-development features enabled: apply_patch_freeform. Under-development features are incomplete and may behave unpredictably. To suppress this warning, set `suppress_unstable_features_warning = true` in /Users/henrymascot/.codex/config.toml.
+mcp startup: no servers
+2026-02-07T18:02:07.136030Z ERROR codex_core::rollout::list: state db missing rollout path for thread 019c3537-6677-7933-ba48-90206d1936cd
+2026-02-07T18:02:07.160636Z ERROR codex_core::rollout::list: state db missing rollout path for thread 019c38c1-3026-74c1-9ba4-236fe13310a6
+2026-02-07T18:02:07.185187Z ERROR codex_core::rollout::list: state db missing rollout path for thread 019c348c-e6f1-7c21-8117-e04e286304e6
+
+thinking
+**Announcing frontend-design skill use**
+codex
+I’m building the landing page now and will base the copy on `courses-page-copy.md` first. I’ll quickly load the `frontend-design` skill guidance and the source copy, then implement `index.html` and `vercel.json` in one pass.
+exec
+/bin/zsh -lc 'cat /Users/henrymascot/.agents/skills/frontend-design/SKILL.md' in /Users/henrymascot/Code/openclaw-coursesexec
+/bin/zsh -lc 'cat courses-page-copy.md' in /Users/henrymascot/Code/openclaw-coursesexec
+/bin/zsh -lc 'ls -la && rg --files' in /Users/henrymascot/Code/openclaw-courses succeeded in 52ms:
+---
+name: frontend-design
+description: Expert frontend design guidelines for creating beautiful, modern UIs. Use when building landing pages, dashboards, or any user interface.
+metadata: {"clawdbot":{"emoji":"🎨"}}
+---
+
+# Frontend Design Skill
+
+Use this skill when creating UI components, landing pages, dashboards, or any frontend design work.
+
+## Design Workflow
+
+Follow this structured approach for UI design:
+
+1. **Layout Design** — Think through component structure, create ASCII wireframes
+2. **Theme Design** — Define colors, fonts, spacing, shadows
+3. **Animation Design** — Plan micro-interactions and transitions
+4. **Implementation** — Generate the actual code
+
+### 1. Layout Design
+ succeeded in 51ms:
+# OpenClaw Courses - Landing Page Copy
+
+**Domain:** learn-openclaw.com
+**Business:** Self-paced courses + group training
+**Target:** Non-technical users wanting to learn AI agents
+
+---
+
+## Hero Section
+
+### Headline
+**Master AI Agents. Transform Your Business.**
+
+### Subheadline
+Learn to build, deploy, and scale AI agents with OpenClaw. From zero to automation hero in weeks, not months.
+
+### CTA Button
+**Enroll Now → Starting at $497**
+
+---
+ succeeded in 51ms:
+total 24
+drwxr-xr-x   5 henrymascot  staff   160 Feb  7 18:01 .
+drwxr-xr-x  99 henrymascot  staff  3168 Feb  7 18:01 ..
+drwxr-xr-x@ 12 henrymascot  staff   384 Feb  7 18:01 .git
+-rw-r--r--   1 henrymascot  staff  2020 Feb  7 18:02 codex-build.log
+-rw-r--r--   1 henrymascot  staff  7434 Feb  7 18:01 courses-page-copy.md
+codex-build.log
+courses-page-copy.md
+
+thinking
+**Planning complete landing page build**
+codex
+I’m using the `frontend-design` skill because this is a full landing page build. Next I’ll implement a single responsive `index.html` (Tailwind CDN + custom dark gradient styling, sections, FAQ accordion) and add a minimal `vercel.json` for static deployment.
+exec
+/bin/zsh -lc "cat > vercel.json <<'EOF'
+{
+  \"cleanUrls\": true,
+  \"trailingSlash\": false,
+  \"rewrites\": [
+    {
+      \"source\": \"/(.*)\",
+      \"destination\": \"/index.html\"
+    }
+  ]
+}
+EOF" in /Users/henrymascot/Code/openclaw-coursesexec
+/bin/zsh -lc "cat > index.html <<'EOF'
+<"'!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenClaw Courses | Master AI Agents</title>
+    <meta
+      name="description"
+      content="Master AI agents with OpenClaw courses. Self-paced training, team workshops, and early access pricing."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"'Space Grotesk', 'ui-sans-serif', 'system-ui'],
+              display: ['Sora', 'Space Grotesk', 'ui-sans-serif'],
+            },
+            colors: {
+              ink: '#060714',
+              panel: '#0c1024',
+              line: '#1f2a59',
+              neon: '#6ea8ff',
+              violet: '#9f7cff',
+            },
+            boxShadow: {
+              glow: '0 10px 40px rgba(99, 102, 241, 0.25)',
+            },
+            keyframes: {
+              rise: {
+                '0%': { opacity: '0', transform: 'translateY(16px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+            },
+            animation: {
+              rise: 'rise 550ms ease-out both',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        background:
+          radial-gradient(1200px 600px at 10% 0%, rgba(99, 102, 241, 0.22), transparent 60%),
+          radial-gradient(900px 500px at 90% 10%, rgba(59, 130, 246, 0.2), transparent 60%),
+          #060714;
+      }
+      .card-border {
+        background: linear-gradient(140deg, rgba(159, 124, 255, 0.35), rgba(110, 168, 255, 0.12));
+        padding: 1px;
+      }
+    </style>
+  </head>
+  <body class=\"text-slate-100 antialiased\">
+    <header class=\"sticky top-0 z-20 border-b border-line/70 bg-ink/80 backdrop-blur\">
+      <div class=\"mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8\">
+        <p class=\"font-display text-sm tracking-[0.22em] text-slate-300\">LEARN-OPENCLAW.COM</p>
+        <a
+          href=\"#pricing\"
+          class=\"rounded-full bg-gradient-to-r from-violet to-neon px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.02]\"
+          >Enroll Now</a
+        >
+      </div>
+    </header>
+
+    <main>
+      <section class=\"mx-auto max-w-6xl px-4 pb-14 pt-14 sm:px-6 lg:px-8 lg:pt-20\">
+        <div class=\"card-border animate-rise rounded-3xl shadow-glow\">
+          <div class=\"rounded-3xl bg-panel/95 p-8 sm:p-12\">
+            <p class=\"mb-4 inline-flex rounded-full border border-violet/40 bg-violet/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-violet-200\">
+              Early Access: 40% Off Through Feb 28, 2026
+            </p>
+            <h1 class=\"font-display text-4xl leading-tight sm:text-5xl lg:text-6xl\">
+              Master AI Agents. <span class=\"bg-gradient-to-r from-violet-300 to-blue-300 bg-clip-text text-transparent\">Transform Your Business.</span>
+            </h1>
+            <p class=\"mt-5 max-w-2xl text-lg text-slate-300\">
+              Learn to build, deploy, and scale AI agents with OpenClaw. From zero to automation hero in weeks, not months.
+            </p>
+            <div class=\"mt-8 flex flex-col gap-3 sm:flex-row\">
+              <a
+                href=\"#pricing\"
+                class=\"rounded-xl bg-gradient-to-r from-violet to-neon px-6 py-3 text-center font-semibold text-white transition hover:brightness-110\"
+                >Enroll Now → Starting at "'$497</a
+              >
+              <a
+                href="#faq"
+                class="rounded-xl border border-line px-6 py-3 text-center font-semibold text-slate-200 transition hover:border-neon/60 hover:text-white"
+                >View FAQ</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
+        <div class="grid gap-4 rounded-2xl border border-line bg-panel/70 p-6 sm:grid-cols-2 lg:grid-cols-4">
+          <p class="text-sm text-slate-300">YouTube tutorials are outdated by next week</p>
+          <p class="text-sm text-slate-300">Docs assume you'"'re already an engineer</p>
+          <p class=\"text-sm text-slate-300\">Prompts don't feel like real automation</p>
+          <p class=\"text-sm text-slate-300\">The gap isn't intelligence. It's practical knowledge.</p>
+        </div>
+      </section>
+
+      <section id=\"pricing\" class=\"mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8\">
+        <div class=\"mb-8 flex items-end justify-between gap-4\">
+          <div>
+            <h2 class=\"font-display text-3xl sm:text-4xl\">Self-Paced Courses</h2>
+            <p class=\"mt-2 text-slate-300\">Pick one track or bundle all three for complete mastery.</p>
+          </div>
+        </div>
+
+        <div class=\"grid gap-6 md:grid-cols-3\">
+          <article class=\"card-border rounded-2xl\">
+            <div class=\"flex h-full flex-col rounded-2xl bg-panel p-6\">
+              <p class=\"text-sm text-violet-200\">OpenClaw Fundamentals</p>
+              <p class=\"mt-2 text-4xl font-bold\">"'$497</p>
+              <p class="mt-2 text-sm text-slate-300">6 hours · Lifetime access · No coding required</p>
+              <ul class="mt-5 space-y-2 text-sm text-slate-200">
+                <li>Build your first agent from scratch</li>
+                <li>Connect Gmail, Calendar, Slack, and more</li>
+                <li>6 hours of videos + project files</li>
+                <li>Private community + 30-day support</li>
+              </ul>
+              <a href="#" class="mt-6 rounded-lg border border-line px-4 py-2 text-center text-sm font-semibold transition hover:border-neon/70">Choose Fundamentals</a>
+            </div>
+          </article>
+
+          <article class="card-border rounded-2xl">
+            <div class="flex h-full flex-col rounded-2xl bg-panel p-6">
+              <p class="text-sm text-violet-200">Advanced Agent Engineering</p>
+              <p class="mt-2 text-4xl font-bold">$997</p>
+              <p class="mt-2 text-sm text-slate-300">12 hours · Lifetime access · Build multi-agent systems</p>
+              <ul class="mt-5 space-y-2 text-sm text-slate-200">
+                <li>Orchestration, custom tools, and memory systems</li>
+                <li>Production deployment and safety patterns</li>
+                <li>5 project templates + code repository</li>
+                <li>Private Discord + 60-day support</li>
+              </ul>
+              <a href="#" class="mt-6 rounded-lg border border-line px-4 py-2 text-center text-sm font-semibold transition hover:border-neon/70">Choose Advanced</a>
+            </div>
+          </article>
+
+          <article class="card-border rounded-2xl">
+            <div class="flex h-full flex-col rounded-2xl bg-panel p-6">
+              <p class="text-sm text-violet-200">AI Agent Business Accelerator</p>
+              <p class="mt-2 text-4xl font-bold">$2,497</p>
+              <p class="mt-2 text-sm text-slate-300">20 hours · Lifetime access · Turn skills into revenue</p>
+              <ul class="mt-5 space-y-2 text-sm text-slate-200">
+                <li>Agency model, productization, and pricing</li>
+                <li>Proposal and contract templates</li>
+                <li>Private mastermind + 2 group coaching calls</li>
+                <li>90-day email support</li>
+              </ul>
+              <a href="#" class="mt-6 rounded-lg border border-line px-4 py-2 text-center text-sm font-semibold transition hover:border-neon/70">Choose Accelerator</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+        <div class="grid gap-6 lg:grid-cols-5">
+          <article class="card-border rounded-2xl lg:col-span-3">
+            <div class="h-full rounded-2xl bg-panel p-7">
+              <p class="text-xs uppercase tracking-[0.2em] text-blue-200">Group Training</p>
+              <h3 class="mt-3 font-display text-2xl">Team Transformation Workshop</h3>
+              <p class="mt-2 text-4xl font-bold">$4,997 <span class="text-base font-medium text-slate-300">2-day virtual intensive</span></p>
+              <p class="mt-4 text-slate-300">Train your team on AI agents with your real workflows and data.</p>
+              <ul class="mt-4 grid gap-2 text-sm text-slate-200 sm:grid-cols-2">
+                <li>Pre-workshop assessment</li>
+                <li>2 full days of live training</li>
+                <li>Custom automation roadmap</li>
+                <li>30 days follow-up support</li>
+                <li>Virtual or on-site delivery</li>
+                <li>Fundamentals included for all participants</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card-border rounded-2xl lg:col-span-2">
+            <div class="flex h-full flex-col justify-between rounded-2xl bg-gradient-to-br from-violet-950/80 via-panel to-blue-950/70 p-7">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-violet-200">Bundle Deal</p>
+                <h3 class="mt-3 font-display text-2xl">All Courses Bundle</h3>
+                <p class="mt-2 text-sm text-slate-300">Fundamentals + Advanced + Accelerator</p>
+                <p class="mt-5 text-4xl font-bold">$2,997</p>
+                <p class="mt-1 text-slate-300"><span class="line-through">$4,491</span> · Save 33%</p>
+              </div>
+              <a href="#" class="mt-6 rounded-lg bg-white/10 px-4 py-3 text-center font-semibold text-white transition hover:bg-white/20">Claim Bundle</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+        <div class="rounded-2xl border border-violet/40 bg-gradient-to-r from-violet-900/40 via-indigo-900/30 to-blue-900/40 p-7 sm:p-10">
+          <p class="text-xs uppercase tracking-[0.22em] text-violet-200">Limited Time Offer</p>
+          <h2 class="mt-3 font-display text-3xl sm:text-4xl">Early Access Pricing: 40% Off</h2>
+          <p class="mt-3 max-w-3xl text-slate-200">
+            Launching in Q1 2026. Early enrollees get founding member community access, direct feedback lines to instructors, and first influence on future modules.
+          </p>
+          <p class="mt-4 text-sm font-semibold text-blue-200">Pricing goes up after February 28, 2026.</p>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+        <h2 class="font-display text-3xl sm:text-4xl">What Students Are Saying</h2>
+        <div class="mt-6 grid gap-6 md:grid-cols-3">
+          <blockquote class="rounded-2xl border border-line bg-panel/80 p-6">
+            <p class="text-slate-200">"I went from what even is an agent to having one handle my inbox in a weekend."</p>
+            <footer class="mt-4 text-sm text-slate-400">Marcus Chen, Startup Founder</footer>
+          </blockquote>
+          <blockquote class="rounded-2xl border border-line bg-panel/80 p-6">
+            <p class="text-slate-200">"We trained our whole product team with the workshop. Now everyone can build automations without waiting on engineering."</p>
+            <footer class="mt-4 text-sm text-slate-400">Sarah Kim, VP Product</footer>
+          </blockquote>
+          <blockquote class="rounded-2xl border border-line bg-panel/80 p-6">
+            <p class="text-slate-200">"The agency accelerator paid for itself in my first client project."</p>
+            <footer class="mt-4 text-sm text-slate-400">James O., AI Consultant</footer>
+          </blockquote>
+        </div>
+      </section>
+
+      <section id="faq" class="mx-auto max-w-4xl px-4 pb-20 sm:px-6 lg:px-8">
+        <h2 class="font-display text-3xl sm:text-4xl">FAQ</h2>
+        <div class="mt-6 space-y-3" id="faq-list">
+          <details class="group rounded-xl border border-line bg-panel/80 p-5" open>
+            <summary class="cursor-pointer list-none font-semibold">How long do I have access?</summary>
+            <p class="mt-3 text-slate-300">Lifetime access. Buy once and keep all future updates.</p>
+          </details>
+          <details class="group rounded-xl border border-line bg-panel/80 p-5">
+            <summary class="cursor-pointer list-none font-semibold">Do I need to know how to code?</summary>
+            <p class="mt-3 text-slate-300">No for Fundamentals. Advanced tracks include code, taught from scratch.</p>
+          </details>
+          <details class="group rounded-xl border border-line bg-panel/80 p-5">
+            <summary class="cursor-pointer list-none font-semibold">What if I get stuck?</summary>
+            <p class="mt-3 text-slate-300">Every course includes support plus private community access for questions.</p>
+          </details>
+          <details class="group rounded-xl border border-line bg-panel/80 p-5">
+            <summary class="cursor-pointer list-none font-semibold">Can I expense this through my company?</summary>
+            <p class="mt-3 text-slate-300">Yes. Invoices are provided and company details can be added.</p>
+          </details>
+          <details class="group rounded-xl border border-line bg-panel/80 p-5">
+            <summary class="cursor-pointer list-none font-semibold">What'"'s your refund policy?</summary>
+            <p class=\"mt-3 text-slate-300\">30-day money-back guarantee after completing the first two modules.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class=\"border-t border-line/70 py-8\">
+      <div class=\"mx-auto flex max-w-6xl flex-col gap-2 px-4 text-sm text-slate-400 sm:px-6 lg:px-8\">
+        <p class=\"font-display tracking-[0.18em]\">learn-openclaw.com</p>
+        <p>Questions? courses@openclaw.io</p>
+        <p>© 2026 OpenClaw. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const details = Array.from(document.querySelectorAll('#faq-list details'));
+      details.forEach((item) => {
+        item.addEventListener('toggle', () => {
+          if ("'!item.open) return;
+          details.forEach((other) => {
+            if (other !== item) other.open = false;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+EOF' in /Users/henrymascot/Code/openclaw-courses succeeded in 51ms:
+
+ succeeded in 51ms:
+
+
+thinking
+**Verifying file contents**
+codex
+The page and deployment config are in place. I’m running a quick validation pass to confirm all required sections, pricing points, and responsive/accordion behavior are present.
+exec
+/bin/zsh -lc "sed -n '1,220p' index.html" in /Users/henrymascot/Code/openclaw-coursesexec
+/bin/zsh -lc "rg -n \"Master AI Agents|\\"'$497|'"\\"'$997|'"\\"'$2,497|'"\\"'$4,997|'"\\"'$2,997|40%|FAQ|details|tailwindcss" index.html vercel.json' in /Users/henrymascot/Code/openclaw-coursesexec
+/bin/zsh -lc 'wc -l index.html vercel.json && ls -la index.html vercel.json' in /Users/henrymascot/Code/openclaw-courses succeeded in 51ms:
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenClaw Courses | Master AI Agents</title>
+    <meta
+      name="description"
+      content="Master AI agents with OpenClaw courses. Self-paced training, team workshops, and early access pricing."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+ succeeded in 51ms:
+index.html:6:    <title>OpenClaw Courses | Master AI Agents</title>
+index.html:17:    <script src="https://cdn.tailwindcss.com"></script>
+index.html:82:              Early Access: 40% Off Through Feb 28, 2026
+index.html:85:              Master AI Agents. <span class="bg-gradient-to-r from-violet-300 to-blue-300 bg-clip-text text-transparent">Transform Your Business.</span>
+index.html:99:                >View FAQ</a
+index.html:208:          <h2 class="mt-3 font-display text-3xl sm:text-4xl">Early Access Pricing: 40% Off</h2>
+index.html:235:        <h2 class="font-display text-3xl sm:text-4xl">FAQ</h2>
+index.html:237:          <details class="group rounded-xl border border-line bg-panel/80 p-5" open>
+index.html:240:          </details>
+index.html:241:          <details class="group rounded-xl border border-line bg-panel/80 p-5">
+index.html:244:          </details>
+index.html:245:          <details class="group rounded-xl border border-line bg-panel/80 p-5">
+index.html:248:          </details>
+index.html:249:          <details class="group rounded-xl border border-line bg-panel/80 p-5">
+index.html:251:            <p class="mt-3 text-slate-300">Yes. Invoices are provided and company details can be added.</p>
+index.html:252:          </details>
+index.html:253:          <details class="group rounded-xl border border-line bg-panel/80 p-5">
+index.html:256:          </details>
+index.html:270:      const details = Array.from(document.querySelectorAll('#faq-list details'));
+index.html:271:      details.forEach((item) => {
+ succeeded in 51ms:
+     281 index.html
+      10 vercel.json
+     291 total
+-rw-r--r--@ 1 henrymascot  staff  14649 Feb  7 18:03 index.html
+-rw-r--r--@ 1 henrymascot  staff    143 Feb  7 18:03 vercel.json
+
+thinking
+**Verifying HTML completeness**
+exec
+/bin/zsh -lc 'tail -n 80 index.html' in /Users/henrymascot/Code/openclaw-courses succeeded in 52ms:
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+        <div class="rounded-2xl border border-violet/40 bg-gradient-to-r from-violet-900/40 via-indigo-900/30 to-blue-900/40 p-7 sm:p-10">
+          <p class="text-xs uppercase tracking-[0.22em] text-violet-200">Limited Time Offer</p>
+          <h2 class="mt-3 font-display text-3xl sm:text-4xl">Early Access Pricing: 40% Off</h2>
+          <p class="mt-3 max-w-3xl text-slate-200">
+            Launching in Q1 2026. Early enrollees get founding member community access, direct feedback lines to instructors, and first influence on future modules.
+          </p>
+          <p class="mt-4 text-sm font-semibold text-blue-200">Pricing goes up after February 28, 2026.</p>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+        <h2 class="font-display text-3xl sm:text-4xl">What Students Are Saying</h2>
+        <div class="mt-6 grid gap-6 md:grid-cols-3">
+          <blockquote class="rounded-2xl border border-line bg-panel/80 p-6">
+            <p class="text-slate-200">"I went from what even is an agent to having one handle my inbox in a weekend."</p>
+            <footer class="mt-4 text-sm text-slate-400">Marcus Chen, Startup Founder</footer>
+
+thinking
+**Planning final checks and deployment**
+codex
+I’ve verified the required sections and pricing are present. I’m doing one final check of changed files before handing it back.
+exec
+/bin/zsh -lc 'git status --short' in /Users/henrymascot/Code/openclaw-courses succeeded in 52ms:
+ M codex-build.log
+?? index.html
+?? vercel.json
+
+thinking
+**Confirming changes and finalizing output**
+codex
+Implemented.
+
+Created `index.html` with Tailwind CDN and a full dark-themed, mobile-responsive landing page using content from `courses-page-copy.md`, including:
+
+- Hero section + CTA
+- 3 course cards:
+  - Fundamentals `$497`
+  - Advanced `$997`
+  - Accelerator `$2,497`
+- Team workshop section `$4,997`
+- Bundle deal (`$2,997` vs `$4,491`, save 33%)
+- Testimonials
+- FAQ accordion (single-open behavior via JS)
+- 40% early access offer with date callout
+
+Added `vercel.json` for static deployment routing to `index.html`.
+
+Files:
+- `index.html`
+- `vercel.json`
+
+If you want, I can next wire the CTA buttons to real checkout/contact URLs.
+tokens used
+25,258
+Implemented.
+
+Created `index.html` with Tailwind CDN and a full dark-themed, mobile-responsive landing page using content from `courses-page-copy.md`, including:
+
+- Hero section + CTA
+- 3 course cards:
+  - Fundamentals `$497`
+  - Advanced `$997`
+  - Accelerator `$2,497`
+- Team workshop section `$4,997`
+- Bundle deal (`$2,997` vs `$4,491`, save 33%)
+- Testimonials
+- FAQ accordion (single-open behavior via JS)
+- 40% early access offer with date callout
+
+Added `vercel.json` for static deployment routing to `index.html`.
+
+Files:
+- `index.html`
+- `vercel.json`
+
+If you want, I can next wire the CTA buttons to real checkout/contact URLs.
