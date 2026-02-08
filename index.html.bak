@@ -320,7 +320,7 @@
         
         // Try to send to webhook (will work once n8n is configured)
         try {
-          await fetch('https://n8n.crl.to/webhook/course-waitlist', {
+          await fetch('https://n8n.openclaw.io/webhook/courses-waitlist', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
